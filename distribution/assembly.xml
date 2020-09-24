@@ -11,7 +11,7 @@
         <fileSet>
             <directory>${basedir}/../distribution/conf</directory>
             <includes>
-                <include>logback-spring.xml</include>
+                <include>*.xml</include>
             </includes>
             <fileMode>0644</fileMode>
             <outputDirectory>${file.separator}conf</outputDirectory>
@@ -23,6 +23,7 @@
                 <include>*.sh</include>
             </includes>
             <fileMode>0755</fileMode>
+            <lineEnding>unix</lineEnding>
             <outputDirectory>${file.separator}bin</outputDirectory>
         </fileSet>
         <!-- executable jar -->
