@@ -21,7 +21,7 @@ LOG_OPTS="-Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.Log4j
 nohup java ${JAVA_OPTS} ${GC_OPTS} ${LOG_OPTS}  -Dbase.dir=${base_dir} -jar ${JAR} >>/dev/null 2>&1 &
 
 pid=$(ps -ef | grep ${JAR} | grep -v grep | awk '{print $2}')
-if [ $pid ]; then
+if [ "$pid" ]; then
   echo ${JAR} is running pid=$pid start success
 else
   echo ${JAR} start failed

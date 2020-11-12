@@ -8,7 +8,7 @@ for filename in $files; do
 done
 
 pid=`ps -ef | grep ${JAR} | grep -v grep |awk '{print $2}'`
-if [ $pid ]; then
+if [ "$pid" ]; then
     echo  ${JAR}  is  running pid=$pid start to kill
     kill -9 $pid
    else
@@ -16,7 +16,7 @@ if [ $pid ]; then
    exit
 fi
 pid=`ps -ef | grep ${JAR} | grep -v grep |awk '{print $2}'`
-if [ $pid ]; then
+if [ "$pid" ]; then
     echo kill failed, please check
    else
      echo kill successed

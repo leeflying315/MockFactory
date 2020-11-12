@@ -24,3 +24,8 @@ hs_err_pid*
 *.iml
 /.idea/
 /MqttServer/target/
+*.gz
+*.formatted
+*.formatted
+/HttpServer/target
+/MongoDBClient/target

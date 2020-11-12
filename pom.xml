@@ -6,6 +6,7 @@
     <modules>
         <module>MqttServer</module>
         <module>HttpServer</module>
+        <module>MongoDBClient</module>
     </modules>
 
     <groupId>com.lifei</groupId>
@@ -28,6 +29,11 @@
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-web</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web-client</artifactId>
                 <version>${vertx.version}</version>
             </dependency>
             <dependency>
