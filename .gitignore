@@ -26,6 +26,5 @@ hs_err_pid*
 /MqttServer/target/
 *.gz
 *.formatted
-*.formatted
-/HttpServer/target
-/MongoDBClient/target
+/HttpServer/target/
+/MongoDBClient/target/
