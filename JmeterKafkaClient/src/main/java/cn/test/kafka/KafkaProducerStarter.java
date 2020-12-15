@@ -26,14 +26,17 @@ public class KafkaProducerStarter extends AbstractJavaSamplerClient {
         // kafka服务器地址
 
         // 测试环境
-        props.put("bootstrap.servers", "172.30.208.108:9092");
+//        props.put("bootstrap.servers", "172.30.208.108:9092");
 
         // 沙箱环境
-//         props.put("bootstrap.servers", "172.30.208.65:9092,172.30.208.66:9092,172.30.208.67:9092");
+        props.put("bootstrap.servers", "172.30.208.65:9092,172.30.208.66:9092,172.30.208.67:9092");
 //        props.put("bootstrap.servers", "172.30.125.52:9092");
         // 设置数据key和value的序列化处理类
         props.put("key.serializer", StringSerializer.class);
         props.put("value.serializer", StringSerializer.class);
+        props.put("batch.size", 1024);
+        props.put("linger.ms", 10);
+        props.put("buffer.memory", 33554432);//32M
         // 创建生产者实例
         producer = new KafkaProducer<>(props);
     }
@@ -44,6 +47,7 @@ public class KafkaProducerStarter extends AbstractJavaSamplerClient {
         Arguments args = new Arguments();
         args.addArgument("topic", "test");
         args.addArgument("message", "hello");
+        args.addArgument("send", "1000");
         return args;
     }
 
@@ -51,23 +55,32 @@ public class KafkaProducerStarter extends AbstractJavaSamplerClient {
     public SampleResult runTest(JavaSamplerContext arg0) {
         String topic = arg0.getParameter("topic");
         String message = arg0.getParameter("message");
-
+        int counts = Integer.parseInt(arg0.getParameter("send"));
         // System.out.println(read_key.getAndIncrement());
         SampleResult results = new SampleResult();
         // System.out.println(context.getParameter("rw"));
         results.sampleStart();
+        int total = counts;
         // 1、获取一个集合foo
-        ResponseResult result = sendMsgToProcess(topic, processJson(message));
-        if (!result.getResult()) {
+        for (int i = 0; i < counts; i++) {
+            boolean result = sendMsgToProcess(topic, processJson(message));
+            if (!result) {
+                total--;
+                results.setSuccessful(false);
+                results.setResponseCode(total-- + "");
+            }
+        }
+        if(total!=counts) {
             results.setSuccessful(false);
             results.setResponseCode("500");
-        } else {
-            results.setResponseCodeOK();
-            results.setSuccessful(true);
+            results.setResponseMessage(total + "");
+        }else {
+            results.setResponseOK();
         }
-        results.setResponseMessage(Long.toString(result.getTimestamp()));
         results.sampleEnd();
         return results;
+
+
     }
 
     public static void main(String[] args) {
@@ -76,20 +89,15 @@ public class KafkaProducerStarter extends AbstractJavaSamplerClient {
         System.out.println(result);
     }
 
-    public static ResponseResult sendMsgToProcess(String kafkaTopic, String data) {
+    // 发送消息到kafka
+    public static Boolean sendMsgToProcess(String kafkaTopic, String data) {
         ProducerRecord record = new ProducerRecord<String, String>(kafkaTopic, data);
         try {
             producer.send(record).get();
-            ResponseResult responseResult = new ResponseResult();
-            responseResult.setResult(true);
-            responseResult.setTimestamp(System.currentTimeMillis());
-            return responseResult;
+            return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            ResponseResult responseResult = new ResponseResult();
-            responseResult.setResult(false);
-            responseResult.setTimestamp(System.currentTimeMillis());
-            return responseResult;
+            System.out.println(e.toString());
+            return false;
         }
     }
 
@@ -100,9 +108,9 @@ public class KafkaProducerStarter extends AbstractJavaSamplerClient {
         // 剥离掉第一层
         for (String key : keys) {
             Object value = jsonObject.get(key);
-            JSONArray jsonArray = (JSONArray)value;
+            JSONArray jsonArray = (JSONArray) value;
             // 数组中只有一个元素
-            JSONObject jsonStr = (JSONObject)jsonArray.get(0);
+            JSONObject jsonStr = (JSONObject) jsonArray.get(0);
             System.out.println(jsonStr);
             String messageId = UUID.randomUUID().toString().replaceAll("-", "");
 
@@ -122,7 +130,7 @@ public class KafkaProducerStarter extends AbstractJavaSamplerClient {
                 jsonObject.put("messageId", messageId);
             }
             if ("cmd_data".equals(key) || "rawdata".equals(key) || "event_data".equals(key)) {
-                String body = processBodyMessage((String)allKeyValue.get(key), messageId);
+                String body = processBodyMessage((String) allKeyValue.get(key), messageId);
                 jsonObject.put(key, body);
             }
         }
