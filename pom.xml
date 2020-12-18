@@ -8,6 +8,7 @@
         <module>HttpServer</module>
         <module>MongoDBClient</module>
         <module>JmeterKafkaClient</module>
+        <module>VertxKafkaClient</module>
     </modules>
 
     <groupId>com.lifei</groupId>
