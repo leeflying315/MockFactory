@@ -28,3 +28,4 @@ hs_err_pid*
 *.formatted
 /HttpServer/target/
 /MongoDBClient/target/
+/VertxKafkaClient/target/

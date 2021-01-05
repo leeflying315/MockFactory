@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class KafkaClientVerticle extends AbstractVerticle {
@@ -38,31 +39,34 @@ public class KafkaClientVerticle extends AbstractVerticle {
 
         // use producer for interacting with Apache Kafka
         KafkaProducer<String, String> producer = KafkaProducer.create(vertx, kafkaConfig);
-        log.info("counts is {}", config.getCounts());
-        for (int j=0; j < config.getDuration(); j++) {
-            long startTime = System.currentTimeMillis();
-            //log.info("Start time = {}", startTime);
-            for (int i = 0; i < config.getCounts(); i++) {
-                try {
-                    String message = KafkaProduceUtils.processJson(data);
-                    // only topic and message value are specified, round robin on destination partitions
-                    KafkaProducerRecord<String, String> record =
-                            KafkaProducerRecord.create(config.getTopic(), message);
-
-                    producer.write(record).onComplete(result -> {
-                        log.info("send info success {} ", result.succeeded());
-                    });
-                } catch (Exception exception) {
-                    log.error("send info exception {}", exception);
-                }
+        AtomicInteger costTime = new AtomicInteger(0);
+        // 每秒发送次数
+        vertx.setPeriodic(1000, t -> {
+            sendMessage(config.getCounts(), data, config.getTopic(), producer);
+            int nowCounts = costTime.addAndGet(1);
+            if (nowCounts > config.getDuration()) {
+                log.info("send finish, total send {} message", config.getCounts() * config.getDuration());
+                vertx.cancelTimer(t);
             }
-            long endTime = System.currentTimeMillis();
-            //log.info("End time = {}", endTime);
-            long cost = endTime - startTime;
-            //log.info("Cost time = {}", cost);
-            if (cost < 1000){
-                Thread.sleep(1000 - cost);
+        });
+
+    }
+
+    public void sendMessage(int counts, String data, String topic, KafkaProducer<String, String> producer) {
+        for (int i = 0; i < counts; i++) {
+            try {
+                String message = KafkaProduceUtils.processJson(data);
+                // only topic and message value are specified, round robin on destination partitions
+                KafkaProducerRecord<String, String> record =
+                        KafkaProducerRecord.create(topic, message);
+
+                producer.write(record).onComplete(result -> {
+                    log.info("send info success {} ", result.succeeded());
+                });
+            } catch (Exception exception) {
+                log.error("send info exception", exception);
             }
         }
+
     }
 }
