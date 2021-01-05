@@ -1,5 +1,0 @@
-com\lifei\bean\Config.class
-com\lifei\utils\KafkaProduceUtils.class
-com\lifei\utils\ResponseResult.class
-com\lifei\verticle\KafkaClientVerticle.class
-com\lifei\KafkaClientStarter.class

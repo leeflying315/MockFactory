@@ -1,3 +1,0 @@
-kafkaServer: 172.30.125.52:9092
-topic: test
-counts: 10

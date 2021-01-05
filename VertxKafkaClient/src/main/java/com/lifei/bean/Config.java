@@ -19,6 +19,8 @@ public class Config {
     public String topic;
     // 总连接数
     public int counts;
+
+    public int duration;
 //
     public String message1;
 //
