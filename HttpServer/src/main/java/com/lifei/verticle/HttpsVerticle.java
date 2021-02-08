@@ -1,17 +1,15 @@
 package com.lifei.verticle;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.ClientAuth;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.net.PemKeyCertOptions;
-import io.vertx.core.net.PemTrustOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @Author: lifei
@@ -68,8 +66,9 @@ public class HttpsVerticle extends AbstractVerticle {
         httpServerOptions.setSsl(true);
         httpServerOptions
             .setPemKeyCertOptions(new PemKeyCertOptions().setKeyPath("server-key.pem").setCertPath("server-cert.pem"));
-        httpServerOptions.setClientAuth(ClientAuth.REQUIRED)
-            .setPemTrustOptions(new PemTrustOptions().addCertPath("server-cert.pem"));
+        httpServerOptions.setClientAuth(ClientAuth.NONE);
+//        httpServerOptions.setClientAuth(ClientAuth.REQUIRED)
+//            .setPemTrustOptions(new PemTrustOptions().addCertPath("server-cert.pem"));
         // .setKeyStoreOptions(new JksOptions().setPath("server-keystore.jks").setPassword("wibble"));
         return httpServerOptions;
     }

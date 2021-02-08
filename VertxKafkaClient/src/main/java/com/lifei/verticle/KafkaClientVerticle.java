@@ -18,7 +18,7 @@ public class KafkaClientVerticle extends AbstractVerticle {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public void start() throws InterruptedException {
+    public void start() {
         String str = context.config().getString("configBean");
         Config configTemp = null;
         try {
