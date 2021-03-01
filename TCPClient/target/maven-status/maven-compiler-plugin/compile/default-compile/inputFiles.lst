@@ -1,0 +1,12 @@
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\constant\MqttTopicConstant.java
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\TcpSingleClientStarter.java
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\utils\Utils.java
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\bean\SocketSessionBean.java
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\TcpClientStarter.java
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\verticle\MetricVerticle.java
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\utils\EnCode.java
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\utils\Method.java
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\verticle\TcpBenchMarkVerticle.java
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\bean\Config.java
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\bean\MetricRateBean.java
+E:\workspace\MockFactory\TCPClient\src\main\java\com\lifei\verticle\TcpSingleVerticle.java

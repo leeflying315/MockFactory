@@ -1,0 +1,9 @@
+server:
+  port: 33890
+  ip: 172.30.125.55
+totalConnection: 1
+interval: 1000
+ipLists: 10.10.23.12
+message:
+  publishInterval: 500
+  messageCount: 50

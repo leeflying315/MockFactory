@@ -36,6 +36,24 @@
             </includes>
             <fileMode>0755</fileMode>
         </fileSet>
+
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>${file.separator}</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>*.yml</include>
+                <include>**/*.yaml</include>
+                <include>**/*.txt</include>
+                <include>**/*.xml</include>
+                <include>*.properties</include>
+                <include>**/*.properties</include>
+                <include>**/*.conf</include>
+            </includes>
+            <excludes>
+                <exclude>log4j2.xml</exclude>
+            </excludes>
+        </fileSet>
     </fileSets>
 
 </assembly>
