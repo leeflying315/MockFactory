@@ -11,6 +11,7 @@
         <module>VertxKafkaClient</module>
         <module>TCPClient</module>
         <module>TCPServer</module>
+        <module>flink-demo</module>
     </modules>
 
     <groupId>com.lifei</groupId>
