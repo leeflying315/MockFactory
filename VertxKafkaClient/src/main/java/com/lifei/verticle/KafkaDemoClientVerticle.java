@@ -5,11 +5,15 @@ import io.vertx.kafka.client.producer.KafkaProducer;
 import io.vertx.kafka.client.producer.KafkaProducerRecord;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 public class KafkaDemoClientVerticle extends AbstractVerticle {
+
+    static DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public void start()  {
@@ -38,12 +42,19 @@ public class KafkaDemoClientVerticle extends AbstractVerticle {
 //        KafkaProducerRecord<String, String> record =
 //                KafkaProducerRecord.create("lwm2m.passthrough", "{\"deviceKey\":\"Po6rnsklLRAyUXi\",\"lwm2mTopic\":\"lwm2m/000000019940124/up/notify\",\"payLoad\":\"test\",\"productKey\":\"cu31prk2bjseikYC\"}");
 
-        KafkaProducerRecord<String, String> record =
-                KafkaProducerRecord.create("ck.device.rawdata", "{\"action\":51,\"device_key\":\"thermostat01\",\"log_level\":\"Info\",\"message_id\":\"16061003333422\",\"operation_by_id\":\"cu6kq33bu365mhYn&pad_003\",\"operation_code\":\"$sys/cu6kq33bu365mhYn/pad_003/property/pub\",\"product_key\":\"cu23o9t2xsyllwnC\",\"rawdata\":\"{\\\"messageId\\\":\\\"16061003333422\\\",\\\"params\\\":{\\\"currentTemperature\\\":{\\\"value\\\":10,\\\"ts\\\":\\\"1606100317842\\\"},\\\"currentElectric\\\":{\\\"value\\\":0.57,\\\"ts\\\":\\\"1606100317842\\\"}}}\",\"request_time\":\"2022-11-23 10:58:49.690\",\"service_type\":201,\"status_code\":\"000000\"}");
 //        producer.write(record).onComplete(result -> {
 //            log.info("send info success {} ", result.succeeded());
 //        });
         vertx.setPeriodic(10, t -> {
+            LocalDateTime localDateTime = LocalDateTime.now();
+            String format5 = localDateTime.format(formatter2);
+            log.info("time is {}", format5);
+            String msg = "{\"action\":51,\"data_size\":2,\"device_key\":\"26Iu3F15DWZkn4K\",\"log_level\":\"Info\",\"message_id\":\"10014\",\"operation_by_id\":\"cu31prk2bjseikYC:26Iu3F15DWZkn4K\",\"operation_code\":\"$sys/cu31prk2bjseikYC/26Iu3F15DWZkn4K/property/batch\",\"product_key\":\"cu31prk2bjseikYC\",\"rawdata\":\"{\\\"messageId\\\":\\\"10014\\\",\\\"params\\\":{\\\"lightVoltage\\\":{\\\"value\\\":26.4,\\\"ts\\\":1626146567193},\\\"lightCurrent\\\":{\\\"value\\\":2,\\\"ts\\\":1626146567193}}}\",\"request_time\":\"" +
+                    format5+  "\",\"sequence_id\":\"0cd21ffb-321f-4e4c-be6d-caaf13b0e8e2\",\"service_type\":201,\"status_code\":\"000000\"}";
+            log.info("msg is {}", msg);
+            KafkaProducerRecord<String, String> record =
+                    KafkaProducerRecord.create("ck.device.rawdata", msg);
+
             producer.write(record).onComplete(result -> {
                 log.info("send info success {} ", result.succeeded());
             });

@@ -14,6 +14,6 @@ public class LocalKafkaClientStarter {
 
         Vertx vertx = Vertx.vertx();
 
-        vertx.deployVerticle(KafkaDemoClientVerticle.class.getName(),  new DeploymentOptions().setInstances(10));
+        vertx.deployVerticle(KafkaDemoClientVerticle.class.getName(),  new DeploymentOptions().setInstances(2));
     }
 }
