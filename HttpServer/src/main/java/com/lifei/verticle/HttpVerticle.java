@@ -1,6 +1,7 @@
 package com.lifei.verticle;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.ext.web.Router;
@@ -45,6 +46,14 @@ public class HttpVerticle extends AbstractVerticle {
     }
 
     public void normalEnd(RoutingContext routingContext) {
+        if (routingContext.request().headers() != null && routingContext.request().headers().size() > 0) {
+            MultiMap map = routingContext.request().headers();
+            map.forEach((key) -> {
+                logger.info("header key is {}, value is {}", key.getKey(),  key.getValue());
+            });
+        } else {
+            logger.info("header is empty");
+        }
         logger.info("receive message {}", routingContext.getBodyAsString());
         routingContext.response().end("info received");
     }
