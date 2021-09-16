@@ -12,6 +12,9 @@
         <module>TCPClient</module>
         <module>TCPServer</module>
         <module>flink-demo</module>
+        <module>http-rhino</module>
+        <module>uni-dmp-sdk</module>
+        <module>flink-job</module>
     </modules>
 
     <groupId>com.lifei</groupId>

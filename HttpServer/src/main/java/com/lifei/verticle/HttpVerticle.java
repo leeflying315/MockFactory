@@ -26,7 +26,7 @@ public class HttpVerticle extends AbstractVerticle {
         Router router = Router.router(vertx);
         router.route().handler(BodyHandler.create());
         router.route("/ok").handler(this::normalEnd);
-        router.route("/waiting/30").handler(this::waitHandler);
+        router.route("/waiting").handler(this::waitHandler);
         router.route("/failed").handler(this::failedHandler);
 
         router.route().failureHandler(route -> {
@@ -55,8 +55,12 @@ public class HttpVerticle extends AbstractVerticle {
     }
 
     public void waitHandler(RoutingContext routingContext) {
+        String waitingTime = routingContext.request().getParam("waiting");
+        if (waitingTime == null) {
+            waitingTime = "1000";
+        }
         logger.info("receive message {}", routingContext.getBodyAsString());
-        vertx.setTimer(30000, t -> {
+        vertx.setTimer(Integer.parseInt(waitingTime), t -> {
             logger.info("send response");
             routingContext.response().end("info received");
         });

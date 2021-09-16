@@ -26,7 +26,7 @@ public class HttpsAuthVerticle extends AbstractVerticle {
         Router router = Router.router(vertx);
         router.route().handler(BodyHandler.create());
         router.route("/ok").handler(HttpsAuthVerticle::normalEnd);
-        router.route("/waiting/30").handler(this::waitHandler);
+        router.route("/waiting/5").handler(this::waitHandler);
         router.route("/failed").handler(this::failedHandler);
 
         router.route().failureHandler(route -> {
@@ -55,7 +55,7 @@ public class HttpsAuthVerticle extends AbstractVerticle {
 
     public void waitHandler(RoutingContext routingContext) {
         logger.info("receive message {}", routingContext.getBodyAsString());
-        vertx.setTimer(30000, t -> {
+        vertx.setTimer(5000, t -> {
             logger.info("send response");
             routingContext.response().end("info received");
         });
