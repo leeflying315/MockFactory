@@ -20,4 +20,8 @@ public class LocalKafkaConfig {
     Integer instance;
 
     String topic;
+
+    Integer httpInstance;
+
+    String kafkaServer;
 }

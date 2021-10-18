@@ -1,4 +1,6 @@
 interval: 2000
 msg: {"userId":"543462","itemId":"1715","categoryId":"1464116","behavior":"pv","ts":"2021-09-13 15:00:00"}
-topic: user_log
+topic: rawdata
 instance: 1
+httpInstance: 1
+kafkaServer: 172.30.125.52:9092

@@ -42,8 +42,10 @@ public class LocalKafkaClientStarter {
 
         Vertx vertx = Vertx.vertx();
         JsonObject config = new JsonObject().put("configBean", str);
+//        vertx.deployVerticle(HttpVerticle.class.getName(),  new DeploymentOptions().setInstances(configBean.getHttpInstance()));
+        vertx.deployVerticle(KafkaDemoClientVerticle.class.getName(), new DeploymentOptions().setInstances(configBean.getInstance()).setConfig(config));
 
-        vertx.deployVerticle(KafkaDemoClientVerticle.class.getName(),  new DeploymentOptions().setInstances(configBean.getInstance()).setConfig(config));
+//        vertx.deployVerticle(KafkaConsumerVerticle.class.getName(),  new DeploymentOptions().setInstances(configBean.getInstance()).setConfig(config));
     }
 
     public static LocalKafkaConfig initConfig() throws IOException {
