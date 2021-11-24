@@ -1,9 +1,7 @@
 package com.lifei;
 
 import com.lifei.verticle.HttpVerticle;
-
 import com.lifei.verticle.HttpsAuthVerticle;
-import com.lifei.verticle.HttpsVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import lombok.extern.log4j.Log4j2;
@@ -24,8 +22,8 @@ public class HttpServerStarter {
         Vertx vertx = Vertx.vertx();
         vertx.deployVerticle(HttpVerticle.class.getName(),
                 new DeploymentOptions().setInstances(2));
-        vertx.deployVerticle(HttpsVerticle.class.getName(),
-                new DeploymentOptions().setInstances(2));
+//        vertx.deployVerticle(.class.getName(),
+//                new DeploymentOptions().setInstances(2));
         vertx.deployVerticle(HttpsAuthVerticle.class.getName(),
                 new DeploymentOptions().setInstances(2));
     }

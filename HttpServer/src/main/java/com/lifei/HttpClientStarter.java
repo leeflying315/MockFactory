@@ -1,6 +1,6 @@
 package com.lifei;
 
-import com.lifei.client.ClientVerticle;
+import com.lifei.benchmark.ClientBenchMarkVerticle;
 import io.vertx.core.Vertx;
 
 /**
@@ -11,6 +11,6 @@ import io.vertx.core.Vertx;
 public class HttpClientStarter {
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
-        vertx.deployVerticle(ClientVerticle.class.getName());
+        vertx.deployVerticle(ClientBenchMarkVerticle.class.getName());
     }
 }
